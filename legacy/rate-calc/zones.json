@@ -1,0 +1,5 @@
+{
+  "metro": ["Mumbai", "Delhi", "Bengaluru", "Chennai", "Kolkata", "Hyderabad"],
+  "regional": ["Pune", "Ahmedabad", "Jaipur", "Surat", "Nagpur"],
+  "special": { "Kolkata-Guwahati": "C", "Delhi-Srinagar": "D" }
+}
