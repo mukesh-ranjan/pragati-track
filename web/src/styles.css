@@ -1,0 +1,14 @@
+body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f7fb; color: #1b2330; }
+main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+header h1 { margin: 0; font-size: 34px; color: #0f4c81; }
+header p { color: #5b6677; margin: 6px 0 24px; }
+input { width: 100%; max-width: 420px; padding: 12px 14px; font-size: 16px; border: 1px solid #c9d2e0; border-radius: 10px; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(15, 76, 129, .08); }
+th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #eef1f6; font-size: 15px; }
+th { background: #0f4c81; color: #fff; font-weight: 600; }
+.mono { font-family: Consolas, monospace; }
+.pill { padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; background: #e8eef7; }
+.pill.delivered { background: #dcf5e3; color: #17663a; }
+.pill.in_transit, .pill.out_for_delivery { background: #e0ecff; color: #1d4ed8; }
+.pill.exception { background: #fde2e2; color: #b42318; }
+.error { color: #b42318; }
