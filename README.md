@@ -2,6 +2,9 @@
 
 Shipment tracking for **Pragati Logistics**: customers and the support desk see where every parcel is.
 
+> Starter project for the **Claude Code Complete Masterclass** (Skills Pragati, free course). Pragati Logistics, its people,
+> customers and shipments are fictional. Each lesson's end state is a git tag (`partNN-…`), so you can check out any point.
+
 | Folder | What it is | Stack |
 |---|---|---|
 | `api/` | Shipments API | Python 3.12, FastAPI, pytest |
