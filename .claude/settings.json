@@ -1,0 +1,1 @@
+{ "env": { "PRAGATI_ENV": "project" }, "permissions": { "deny": ["Read(./.env)"], "allow": ["Bash(git status)", "PowerShell(git status)"] } }
