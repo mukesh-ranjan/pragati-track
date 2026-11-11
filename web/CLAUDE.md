@@ -1,0 +1,2 @@
+- Web app: React + Vite. Run tests with: npm test --prefix web
+- Use function components and hooks only.
