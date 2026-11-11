@@ -35,7 +35,6 @@ function quote(from, to, weightKg, service, dims) {
   amount = amount + amount * FUEL;
   if (service == 'express') {
     amount = amount * EXPRESS;
-    amount = amount + amount * FUEL;
   }
   var total = amount + amount * GST;
   return { zone: zone, chargeableKg: w, beforeTax: amount, total: total };
