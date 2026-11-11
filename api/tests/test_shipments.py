@@ -20,6 +20,15 @@ def test_filter_by_status():
     assert [s["tracking_id"] for s in r.json()] == ["PRG-10022"]
 
 
+def test_list_shows_newest_event_location():
+    # T-4512: PRG-10021 was delivered in Bengaluru but the list showed Pune Hub.
+    r = client.get("/shipments")
+    assert r.status_code == 200
+    summary = next(s for s in r.json() if s["tracking_id"] == "PRG-10021")
+    assert summary["last_location"] == "Koramangala, Bengaluru"
+    assert summary["last_location"] != "Pune Hub"
+
+
 def test_get_one_shipment():
     r = client.get("/shipments/PRG-10021")
     assert r.status_code == 200

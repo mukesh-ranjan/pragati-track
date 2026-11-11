@@ -31,7 +31,8 @@ class Shipment(BaseModel):
 
     @property
     def last_event(self) -> TrackingEvent:
-        return self.events[-1]
+        # Pick by timestamp, not list position: events may arrive out of order.
+        return max(self.events, key=lambda e: e.at)
 
 
 class ShipmentSummary(BaseModel):
@@ -45,7 +46,7 @@ class ShipmentSummary(BaseModel):
     @classmethod
     def from_shipment(cls, s: Shipment) -> "ShipmentSummary":
         # The newest event is the one the customer cares about.
-        last = s.events[0]
+        last = s.last_event
         return cls(
             tracking_id=s.tracking_id,
             origin=s.origin,
