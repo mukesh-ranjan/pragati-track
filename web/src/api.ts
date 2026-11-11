@@ -9,8 +9,6 @@ export interface ShipmentSummary {
   status: Status
   last_location: string
   last_update: string
-  /** ISO timestamp, or null when delivered or in exception (T-4527). */
-  eta: string | null
 }
 
 export async function listShipments(): Promise<ShipmentSummary[]> {
