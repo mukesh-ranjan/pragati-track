@@ -18,3 +18,31 @@ export function shortTime(iso: string): string {
   const d = new Date(iso)
   return d.toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false })
 }
+
+function sameDay(a: Date, b: Date): boolean {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+}
+
+/** "6 pm": the ETA rounded up to the hour, since "by" promises an upper bound. */
+function hourLabel(d: Date): string {
+  const h = Math.min(23, d.getHours() + (d.getMinutes() > 0 ? 1 : 0))
+  const twelve = h % 12 === 0 ? 12 : h % 12
+  return `${twelve} ${h < 12 ? 'am' : 'pm'}`
+}
+
+/**
+ * ETA in customer words (T-4527): "Arrives today by 6 pm", "Arrives tomorrow by 12 pm",
+ * "Arrives Thu 14 Nov", or "We will update you soon" when the API gives no ETA.
+ * `now` is injectable so tests do not depend on the clock.
+ */
+export function etaLabel(eta: string | null, now: Date = new Date()): string {
+  if (!eta) return 'We will update you soon'
+  const d = new Date(eta)
+  if (sameDay(d, now)) return `Arrives today by ${hourLabel(d)}`
+  const tomorrow = new Date(now)
+  tomorrow.setDate(now.getDate() + 1)
+  if (sameDay(d, tomorrow)) return `Arrives tomorrow by ${hourLabel(d)}`
+  const weekday = d.toLocaleDateString('en-IN', { weekday: 'short' })
+  const month = d.toLocaleDateString('en-IN', { month: 'short' })
+  return `Arrives ${weekday} ${d.getDate()} ${month}`
+}
