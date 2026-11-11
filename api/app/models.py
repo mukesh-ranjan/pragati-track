@@ -1,7 +1,9 @@
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
+
+from .eta import estimate_eta
 
 
 class Status(str, Enum):
@@ -34,6 +36,12 @@ class Shipment(BaseModel):
         # Pick by timestamp, not list position: events may arrive out of order.
         return max(self.events, key=lambda e: e.at)
 
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def eta(self) -> datetime | None:
+        # T-4527: None once delivered or in exception, else latest event + lane transit time.
+        return estimate_eta(self.status, self.origin, self.destination, self.last_event.at)
+
 
 class ShipmentSummary(BaseModel):
     tracking_id: str
@@ -42,6 +50,7 @@ class ShipmentSummary(BaseModel):
     status: Status
     last_location: str
     last_update: datetime
+    eta: datetime | None = None
 
     @classmethod
     def from_shipment(cls, s: Shipment) -> "ShipmentSummary":
@@ -54,4 +63,5 @@ class ShipmentSummary(BaseModel):
             status=s.status,
             last_location=last.location,
             last_update=last.at,
+            eta=s.eta,
         )
