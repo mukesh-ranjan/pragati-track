@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { listShipments, type ShipmentSummary } from './api'
-import { etaLabel, shortTime, statusLabel } from './format'
+import { shortTime, statusLabel } from './format'
 
 export default function App() {
   const [rows, setRows] = useState<ShipmentSummary[]>([])
@@ -26,7 +26,7 @@ export default function App() {
       {error && <p className="error">Could not load shipments: {error}</p>}
       <table>
         <thead>
-          <tr><th>Tracking ID</th><th>Route</th><th>Status</th><th>Last seen</th><th>Updated</th><th>Arrives by</th></tr>
+          <tr><th>Tracking ID</th><th>Route</th><th>Status</th><th>Last seen</th><th>Updated</th></tr>
         </thead>
         <tbody>
           {shown.map(s => (
@@ -36,7 +36,6 @@ export default function App() {
               <td><span className={`pill ${s.status}`}>{statusLabel(s.status)}</span></td>
               <td>{s.last_location}</td>
               <td>{shortTime(s.last_update)}</td>
-              <td>{etaLabel(s.eta)}</td>
             </tr>
           ))}
         </tbody>
