@@ -13,6 +13,26 @@ export function statusLabel(s: Status): string {
   return LABELS[s]
 }
 
+/** "₹18.40", "₹21.4" or "₹1,24,000": Indian grouping, the given number of decimals. */
+export function inr(value: number, digits = 2): string {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value)
+}
+
+/** "1,284" with Indian grouping and no decimals. */
+export function count(value: number): string {
+  return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(value)
+}
+
+/** "94.6%" with one decimal. */
+export function percent(value: number, digits = 1): string {
+  return `${value.toFixed(digits)}%`
+}
+
 /** "8 Nov, 09:15" in the viewer's time zone. */
 export function shortTime(iso: string): string {
   const d = new Date(iso)

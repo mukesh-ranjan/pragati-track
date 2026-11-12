@@ -1,0 +1,58 @@
+.pt-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal);
+  min-width: 0;
+}
+
+.pt-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6) 0;
+}
+
+.pt-card__title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+/* Sentence case, as in the mockups ("212 trucks · updated 4 s ago"); the caps style is for KPI labels. */
+.pt-card__meta {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.pt-card__body {
+  padding: var(--space-5) var(--space-6);
+}
+
+.pt-card__header + .pt-card__body {
+  padding-top: var(--space-4);
+}
+
+.pt-card--flush .pt-card__body {
+  padding: 0;
+}
+
+.pt-card--flush .pt-card__header {
+  padding-bottom: var(--space-3);
+}
+
+/* Phone width: 20px side padding (the brief allows 20–24) buys list rows room for their pills. */
+@media (max-width: 640px) {
+  .pt-card__header { padding-left: var(--space-5); padding-right: var(--space-5); }
+  .pt-card__body { padding-left: var(--space-5); padding-right: var(--space-5); }
+  .pt-card--flush .pt-card__body { padding: 0; }
+}
