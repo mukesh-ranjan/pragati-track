@@ -1,0 +1,240 @@
+/* Shipment detail: same shell as the dashboard (sidebar + main column). */
+.sd {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal);
+}
+
+.sd-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: var(--content-max);
+  padding: var(--space-5) var(--space-8) var(--space-12);
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.sd-back {
+  justify-self: start;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  margin-bottom: calc(-1 * var(--space-2));
+}
+.sd-back:hover { color: var(--color-text); }
+.sd-back:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+
+/* ---- Header ---- */
+.sd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+/* Explicit colour: the legacy `header h1` rule in styles.css paints headings blue. */
+.sd-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+.sd-subtitle { margin: var(--space-1) 0 0; font-size: var(--text-sm); color: var(--color-text-muted); }
+
+/* ---- Grid: journey column left, assistant right ---- */
+.sd-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.sd-col { display: grid; gap: var(--space-5); min-width: 0; }
+
+/* ---- ETA ---- */
+.sd-eta { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.sd-eta__value {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
+}
+.sd-eta__hint { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+/* ---- Timeline: newest first, ring dots joined by a hairline ---- */
+.sd-timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+
+.sd-event {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-bottom: var(--space-5);
+}
+.sd-event:last-child { padding-bottom: 0; }
+.sd-event::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 26px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-border);
+}
+.sd-event:last-child::before { display: none; }
+
+.sd-event__dot {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 3px solid var(--sd-dot);
+  background: var(--color-surface);
+}
+/* Dot colour follows the event status; the six API statuses reuse the --status-* tokens. */
+.sd-event[data-status='booked'] { --sd-dot: var(--status-booked); }
+.sd-event[data-status='picked_up'] { --sd-dot: var(--status-picked_up); }
+.sd-event[data-status='in_transit'] { --sd-dot: var(--status-in_transit); }
+.sd-event[data-status='out_for_delivery'] { --sd-dot: var(--status-out_for_delivery); }
+.sd-event[data-status='delivered'] { --sd-dot: var(--status-delivered); }
+.sd-event[data-status='exception'] { --sd-dot: var(--status-exception); }
+/* The current (newest) step is saffron, as in the brief. */
+.sd-event--current { --sd-dot: var(--color-accent); }
+.sd-event--current .sd-event__dot { box-shadow: 0 0 0 4px var(--color-accent-soft); }
+
+.sd-event__main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.sd-event__title { font-size: var(--text-md); font-weight: var(--weight-bold); line-height: var(--leading-tight); }
+.sd-event__sub { margin-top: 3px; font-size: var(--text-sm); color: var(--color-text-muted); }
+.sd-event__time {
+  flex: none;
+  padding-top: 3px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---- Exceptions ---- */
+.sd-exception {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-lg);
+  background: var(--color-danger-soft);
+  font-size: var(--text-sm);
+}
+.sd-exception p { margin: 0; }
+.sd-exception__title { font-weight: var(--weight-bold); color: var(--color-danger-text); }
+.sd-exception__next strong { font-weight: var(--weight-bold); }
+
+.sd-allclear {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.sd-allclear__icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-success-soft);
+  color: var(--color-success-text);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-xs);
+}
+
+/* ---- Documents ---- */
+.sd-docs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.sd-docs li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.sd-docs__icon { flex: none; width: 22px; height: 22px; border-radius: 6px; background: var(--color-info); opacity: 0.75; }
+
+/* ---- Ask Pragati AI (placeholder) ---- */
+.sd-ai .pt-card__body { display: grid; gap: var(--space-4); align-content: space-between; min-height: 360px; }
+.sd-ai__placeholder {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-5);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.sd-ai__placeholder strong { color: var(--color-text); }
+.sd-ai__input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  /* Muted, not faint: the placeholder copy is text and faint is 3.2:1 on the light surface. */
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.sd-ai__send { flex: none; width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-surface-sunken); border: 1px solid var(--color-border); }
+
+/* ---- Loading, error, not found ---- */
+.sd-state { display: grid; gap: var(--space-3); font-size: var(--text-sm); color: var(--color-text-muted); }
+.sd-state strong { color: var(--color-text); font-size: var(--text-md); }
+.sd-state--center { justify-items: center; text-align: center; padding: var(--space-12) var(--space-6); }
+.sd-state--center .pt-btn { margin-top: var(--space-2); }
+.sd-state--error strong { color: var(--color-danger-text); }
+
+.sd-skeleton {
+  display: block;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  background-image: linear-gradient(90deg, transparent 0%, var(--color-border) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: sd-shimmer 1.4s linear infinite;
+}
+.sd-skeleton--title { width: 220px; height: 28px; }
+.sd-skeleton--line { width: 60%; max-width: 420px; height: 14px; }
+.sd-skeleton--card { width: 100%; height: 320px; border-radius: var(--radius-xl); margin-top: var(--space-3); }
+@keyframes sd-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .sd-skeleton { animation: none; } }
+
+/* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  .sd-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .sd { flex-direction: column; }
+  .sd-main { padding: var(--space-5) var(--space-5) var(--space-10); }
+}
+@media (max-width: 640px) {
+  .sd-main { padding: var(--space-4) var(--space-4) var(--space-10); }
+  .sd-header .pt-btn { width: 100%; }
+}

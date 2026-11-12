@@ -1,0 +1,109 @@
+.pt-map {
+  position: relative;
+  height: 360px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface-sunken);
+  isolation: isolate;
+}
+
+.pt-map__canvas {
+  position: absolute;
+  inset: 0;
+}
+.pt-map__canvas .maplibregl-canvas {
+  outline: none;
+}
+/* The canvas is a tab stop (arrow keys pan), so it needs the same ring as every other control. */
+.pt-map__canvas .maplibregl-canvas:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+/* Attribution: always expanded (never hidden behind the ⓘ button), on the card's tokens. */
+.pt-map .maplibregl-ctrl-bottom-right {
+  right: var(--space-3);
+  bottom: var(--space-3);
+}
+.pt-map .maplibregl-ctrl-attrib {
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}
+.pt-map .maplibregl-ctrl-attrib a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+.pt-map .maplibregl-ctrl-attrib a:hover {
+  text-decoration: underline;
+}
+
+/* Legend chip, bottom-left, mirroring the attribution chip. */
+.pt-map__legend {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 2;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  gap: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  pointer-events: none;
+}
+.pt-map__legend li { display: flex; align-items: center; gap: var(--space-2); }
+.pt-map__swatch { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.pt-map__swatch--on_time { background: var(--color-teal); }
+.pt-map__swatch--at_risk { background: var(--color-warning); }
+.pt-map__swatch--delayed { background: var(--color-danger); }
+
+/* "Paused" tag shown when the user prefers reduced motion. */
+.pt-map__paused {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  padding: 3px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+}
+
+/*
+ * Phone width: the attribution wraps to two lines and spans most of the map, so the
+ * legend moves to the top-left as a vertical stack, leaving the top-right for "Motion paused".
+ */
+@media (max-width: 640px) {
+  .pt-map__legend {
+    bottom: auto;
+    top: var(--space-3);
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+}
+
+/* Shown instead of the map when WebGL is unavailable. */
+.pt-map__fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}

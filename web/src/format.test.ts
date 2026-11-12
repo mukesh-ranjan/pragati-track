@@ -1,5 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import { etaLabel, statusLabel } from './format'
+import { count, etaLabel, inr, percent, statusLabel } from './format'
+
+describe('number formatting', () => {
+  it('writes rupees with the sign and Indian grouping', () => {
+    expect(inr(18.4)).toBe('₹18.40')
+    expect(inr(21.4, 1)).toBe('₹21.4')
+    expect(inr(124000, 0)).toBe('₹1,24,000')
+  })
+
+  it('formats counts and percentages for the KPI tiles', () => {
+    expect(count(1284)).toBe('1,284')
+    expect(count(1284.6)).toBe('1,285')
+    expect(percent(94.6)).toBe('94.6%')
+  })
+})
 
 describe('statusLabel', () => {
   it('reads like a person wrote it', () => {
